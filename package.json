@@ -1,0 +1,48 @@
+{
+  "name": "jobscout-api-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "copy-files": "copy-files-from-to",
+    "db:deploy": "npx prisma migrate deploy",
+    "build": "npm run copy-files && tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node build/src/index.js"
+  },
+  "copyFiles": [
+    {
+      "from": "src/generated/prisma/*",
+      "to": "build/src/generated/prisma"
+    },
+    {
+      "from": "src/generated/prisma/runtime/*",
+      "to": "build/src/generated/prisma/runtime"
+    },
+    {
+      "from": ".env",
+      "to": "build/.env"
+    }
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "prisma": "^6.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.7.0",
+    "@prisma/extension-accelerate": "^1.3.0",
+    "bcrypt": "^5.1.1",
+    "copy-files-from-to": "^3.12.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "graphql": "^16.11.0",
+    "graphql-yoga": "^5.13.4",
+    "zod": "^3.24.3"
+  }
+}

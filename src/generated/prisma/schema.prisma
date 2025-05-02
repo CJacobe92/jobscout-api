@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  RECRUITMENT
+  PROCESSING
+  MANAGEMENT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  firstname String
+  lastname  String
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@map("users")
+}
+
+model Client {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  email          String   @unique
+  primaryContact String
+  areaCode       String
+  phoneNumber    String
+  address        Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  jobOrders JobOrder[]
+
+  @@index([name, email, primaryContact, phoneNumber])
+  @@map("clients")
+}
+
+enum JobOrderStatus {
+  NEW
+  IN_PROGRESS
+  CLOSED
+}
+
+model JobOrder {
+  id        String         @id @default(uuid())
+  employer  String
+  position  String
+  salary    Int
+  currency  String
+  headcount Int
+  location  Json
+  status    JobOrderStatus
+
+  visas        Visa[]
+  applications Application[]
+  clientId     String
+  client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([employer, position])
+  @@index([clientId])
+  @@map("job_orders")
+}
+
+enum VisaStatus {
+  BLANK
+  ASSIGNED
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+model Visa {
+  id         String     @id @default(uuid())
+  identifier String     @unique
+  issuedBy   String
+  position   String
+  validFrom  DateTime
+  validUntil DateTime
+  status     VisaStatus
+
+  jobOrderId String
+  jobOrder   JobOrder @relation(fields: [jobOrderId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([identifier])
+  @@index([validUntil])
+  @@index([position])
+  @@map("visas")
+}
+
+model Applicant {
+  id          String  @id @default(uuid())
+  firstname   String
+  lastname    String
+  email       String  @unique
+  password    String  @unique
+  areaCode    String
+  phoneNumber String  @unique
+  resumeURL   String?
+
+  applications Application[]
+  passport     Passport?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([firstname])
+  @@index([lastname])
+  @@index([email])
+  @@index([phoneNumber])
+  @@map("applicants")
+}
+
+model Passport {
+  id             String   @id @default(uuid())
+  passportNumber String   @unique
+  issuedBy       String
+  validFrom      DateTime
+  validUntil     DateTime
+  passportURL    String
+
+  applicantId String    @unique
+  applicant   Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([passportNumber])
+  @@map("passports")
+}
+
+model Application {
+  id          String @id @default(uuid())
+  applicantId String
+  jobOrderId  String
+
+  applicant Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  jobOrder  JobOrder  @relation(fields: [jobOrderId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([applicantId, jobOrderId])
+  @@map("applications")
+}
