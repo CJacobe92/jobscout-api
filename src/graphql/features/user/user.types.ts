@@ -1,4 +1,4 @@
-export const userType = `#graphql
+export const userTypes = `#graphql
 
 enum RoleEnum{
   ADMIN

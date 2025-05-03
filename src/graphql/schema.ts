@@ -1,14 +1,18 @@
 import { createSchema } from "graphql-yoga"
-import { userType } from "./features/user/user.type.js"
+import { userTypes } from "./features/user/user.types.js"
 import { userMutations } from "./features/user/user.mutations.js"
 import { userQueries } from "./features/user/user.queries.js"
+import { authMutations } from "./features/auth/auth.mutation.js"
+import { authTypes } from "./features/auth/auth.types.js"
 
 const typeDefs = `#graphql
-  ${userType}
+  ${userTypes}
+  ${authTypes}
 `
 const resolvers = {
   Mutation: {
-    ...userMutations.Mutation
+    ...userMutations.Mutation,
+    ...authMutations.Mutation,
   },
   Query: {
     ...userQueries.Query

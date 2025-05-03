@@ -1,8 +1,8 @@
-// src/graphql/mutations/createUser.ts
 import { z } from "zod";
 import { GraphQLContext } from "../../../context.js";
 import { userInputValidation } from "../user.validations.js";
 import { GlobalErrorHandler } from "../../../exceptions/global.error.handler.js";
+import { hashSync } from "bcrypt";
 
 export const createUser = GlobalErrorHandler(
   async (_parent: any, args: { input: z.infer<typeof userInputValidation> }, context: GraphQLContext) => {
@@ -11,7 +11,7 @@ export const createUser = GlobalErrorHandler(
     if (!validation.success) throw validation.error;
 
     return await context.prisma.user.create({
-      data: { ...validation.data }
+      data: { ...validation.data, password: hashSync(validation.data.password, 10) }
     });
   }
 )
