@@ -1,8 +1,9 @@
 import { z } from "zod";
-import { GraphQLContext } from "../../../context.js";
+
 import { userInputValidation } from "../user.validations.js";
 import { GlobalErrorHandler } from "../../../exceptions/global.error.handler.js";
 import { hashSync } from "bcrypt";
+import { GraphQLContext } from "../../../../context/index.js";
 
 export const createUser = GlobalErrorHandler(
   async (_parent: any, args: { input: z.infer<typeof userInputValidation> }, context: GraphQLContext) => {

@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { GlobalErrorHandler } from "../../../exceptions/global.error.handler.js";
 import { userIdValidation, userInputValidation } from "../user.validations.js";
-import { GraphQLContext } from "../../../context.js";
+import { GraphQLContext } from "../../../../context/index.js";
+
 
 export const updateUser = GlobalErrorHandler(
   async(_parent: any, args: { id: z.infer<typeof userIdValidation>, input: z.infer<typeof userInputValidation> }, context: GraphQLContext) => {

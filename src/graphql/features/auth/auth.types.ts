@@ -1,12 +1,20 @@
 export const authTypes = `#graphql
 
+enum RoleEnum{
+  ADMIN
+  MANAGEMENT
+  PROCESSING
+  RECRUITMENT
+}
+
 type Auth{
   email: String
   password: String
 }
 
-type Response{
+type AuthPayload{
   id: ID!,
+  role: RoleEnum!
   accessToken: String!
 }
 
@@ -16,7 +24,7 @@ input SigninInput{
 }
 
 type Mutation{
-  signin(credentials: SigninInput!):Response!
+  signin(credentials: SigninInput!):AuthPayload
 }
 
 `

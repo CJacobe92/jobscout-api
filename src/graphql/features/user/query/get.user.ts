@@ -1,7 +1,6 @@
-import { z } from "zod";
+import { GraphQLContext } from "../../../../context/index.js";
 import { GlobalErrorHandler } from "../../../exceptions/global.error.handler.js";
 import { userIdValidation } from "../user.validations.js";
-import { GraphQLContext } from "../../../context.js";
 
 export const getUser = GlobalErrorHandler(
   async(_parent: any, args: { id: string }, context: GraphQLContext) => {

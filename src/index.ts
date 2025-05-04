@@ -1,21 +1,21 @@
 import express,{Response, Request} from "express"
-import { createYoga } from "graphql-yoga";
-import { PrismaClient } from "./generated/prisma/index.js";
+import { createYoga, YogaInitialContext } from "graphql-yoga";
+import { schema } from "./graphql/index.js";
+import { createContext } from "./context/index.js";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { createContext } from "./graphql/context.js";
-import { schema } from "./graphql/schema.js";
+import { PrismaClient } from "./generated/prisma/index.js";
 
 
 const app = express();
 const PORT = 5000;
+
 const yoga = createYoga({
   schema: schema,
-  context: async() => await createContext(),
+  context: async(initialContext: YogaInitialContext) => await createContext(initialContext),
   graphqlEndpoint: "/api/v1/graphql"
 });
 
-
-export const prisma = new PrismaClient().$extends(withAccelerate());
+export const prisma = new PrismaClient().$extends(withAccelerate())
 
 app.use(yoga.graphqlEndpoint, yoga);
 

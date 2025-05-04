@@ -159,3 +159,41 @@ model Application {
   @@unique([applicantId, jobOrderId])
   @@map("applications")
 }
+
+// New tables for Permissions
+model Permission {
+  id                String             @id @default(uuid())
+  name              String             @unique // e.g., "client:read", "job_order:edit_visa"
+  description       String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  objectPermissions ObjectPermission[]
+
+  @@map("permissions")
+}
+
+enum PermissionSubjectType {
+  USER
+  ROLE
+}
+
+model ObjectPermission {
+  id           String                @id @default(uuid())
+  permissionId String
+  permission   Permission            @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  subjectId    String                @map("subject_ref_id") // ID of the User or Role
+  subjectType  PermissionSubjectType @map("subject_type")
+  objectId     String                @map("object_ref_id") // ID of the specific resource (e.g., Client.id)
+  effect       PermissionEffect      @default(ALLOW)
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+
+  @@unique([subjectId, subjectType, objectId, permissionId], name: "unique_object_permission") // Correct unique constraint
+  @@index([permissionId])
+  @@map("object_permissions")
+}
+
+enum PermissionEffect {
+  ALLOW
+  DENY
+}
