@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:latest  
-    container_name: postgres-db
+    container_name: db
     restart: always
     env_file: .env.prod
     ports:
@@ -22,26 +22,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-
-  
-
-  # prisma-studio:
-  #   image: node:23-slim
-  #   working_dir: /usr/src/app
-  #   volumes:
-  #     - .:/usr/src/app
-  #   command: npx prisma studio --port 5555 --browser none
-  #   ports:
-  #     - "5555:5555"
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - app-network
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #     server:
-  #       condition: service_started
 
 volumes:
   postgres_data:

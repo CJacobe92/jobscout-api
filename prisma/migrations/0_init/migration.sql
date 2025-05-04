@@ -7,6 +7,12 @@ CREATE TYPE "JobOrderStatus" AS ENUM ('NEW', 'IN_PROGRESS', 'CLOSED');
 -- CreateEnum
 CREATE TYPE "VisaStatus" AS ENUM ('BLANK', 'ASSIGNED', 'ACTIVE', 'EXPIRED', 'REVOKED');
 
+-- CreateEnum
+CREATE TYPE "PermissionSubjectType" AS ENUM ('USER', 'ROLE');
+
+-- CreateEnum
+CREATE TYPE "PermissionEffect" AS ENUM ('ALLOW', 'DENY');
+
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
@@ -111,6 +117,31 @@ CREATE TABLE "applications" (
     CONSTRAINT "applications_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "permissions" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "permissions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "object_permissions" (
+    "id" TEXT NOT NULL,
+    "permissionId" TEXT NOT NULL,
+    "subject_ref_id" TEXT NOT NULL,
+    "subject_type" "PermissionSubjectType" NOT NULL,
+    "object_ref_id" TEXT NOT NULL,
+    "effect" "PermissionEffect" NOT NULL DEFAULT 'ALLOW',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "object_permissions_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
@@ -177,6 +208,15 @@ CREATE INDEX "passports_passportNumber_idx" ON "passports"("passportNumber");
 -- CreateIndex
 CREATE UNIQUE INDEX "applications_applicantId_jobOrderId_key" ON "applications"("applicantId", "jobOrderId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "permissions_name_key" ON "permissions"("name");
+
+-- CreateIndex
+CREATE INDEX "object_permissions_permissionId_idx" ON "object_permissions"("permissionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "object_permissions_subject_ref_id_subject_type_object_ref_i_key" ON "object_permissions"("subject_ref_id", "subject_type", "object_ref_id", "permissionId");
+
 -- AddForeignKey
 ALTER TABLE "job_orders" ADD CONSTRAINT "job_orders_clientId_fkey" FOREIGN KEY ("clientId") REFERENCES "clients"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -191,3 +231,7 @@ ALTER TABLE "applications" ADD CONSTRAINT "applications_applicantId_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "applications" ADD CONSTRAINT "applications_jobOrderId_fkey" FOREIGN KEY ("jobOrderId") REFERENCES "job_orders"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "object_permissions" ADD CONSTRAINT "object_permissions_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+

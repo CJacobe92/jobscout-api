@@ -10,9 +10,7 @@ COPY package.json package-lock.json ./
 COPY ./build /app/build
 COPY ./prisma /app/prisma
 
-
-# RUN npm ci
-
+RUN npm ci
 
 CMD ["sh", "-c", "npm run db:deploy && npm run start"]
 

@@ -7,6 +7,7 @@
     "copy-files": "copy-files-from-to",
     "db:deploy": "npx prisma migrate deploy",
     "build": "npm run copy-files && tsc -p .",
+    "seed": "node prisma/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/src/index.js"
   },

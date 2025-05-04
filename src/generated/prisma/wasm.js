@@ -203,6 +203,25 @@ exports.Prisma.ApplicationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PermissionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ObjectPermissionScalarFieldEnum = {
+  id: 'id',
+  permissionId: 'permissionId',
+  subjectId: 'subjectId',
+  subjectType: 'subjectType',
+  objectId: 'objectId',
+  effect: 'effect',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -248,6 +267,16 @@ exports.VisaStatus = exports.$Enums.VisaStatus = {
   REVOKED: 'REVOKED'
 };
 
+exports.PermissionSubjectType = exports.$Enums.PermissionSubjectType = {
+  USER: 'USER',
+  ROLE: 'ROLE'
+};
+
+exports.PermissionEffect = exports.$Enums.PermissionEffect = {
+  ALLOW: 'ALLOW',
+  DENY: 'DENY'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Client: 'Client',
@@ -255,7 +284,9 @@ exports.Prisma.ModelName = {
   Visa: 'Visa',
   Applicant: 'Applicant',
   Passport: 'Passport',
-  Application: 'Application'
+  Application: 'Application',
+  Permission: 'Permission',
+  ObjectPermission: 'ObjectPermission'
 };
 
 /**
