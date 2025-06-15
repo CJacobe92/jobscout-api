@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JobScoutApi</name>
+    </assembly>
+    <members>
+        <member name="M:JobScoutApi.Controllers.v1.UsersController.GetAllUsers">
+            <summary>
+            Retrieves all users.
+            </summary>
+            <returns>List of users.</returns>
+        </member>
+        <member name="T:JobScoutApi.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:JobScoutApi.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:JobScoutApi.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:JobScoutApi.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:JobScoutApi.Migrations.AddClientsTable">
+            <inheritdoc />
+        </member>
+        <member name="M:JobScoutApi.Migrations.AddClientsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:JobScoutApi.Migrations.AddClientsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:JobScoutApi.Migrations.AddClientsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
