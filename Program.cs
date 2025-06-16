@@ -1,60 +1,38 @@
-using System.Reflection;
 using Asp.Versioning.ApiExplorer;
 using JobScoutApi.Configurations;
 using JobScoutApi.Data;
-using Microsoft.EntityFrameworkCore;
+using JobScoutApi.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 
-var builder = WebApplication.CreateBuilder(args);
-
-var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-builder.Services.AddControllers();
-
-// ✅ Register API Versioning
-builder.Services.AddApiVersioning(options =>
+namespace JobScoutApi
 {
-    options.ReportApiVersions = true;
-})
-.AddApiExplorer(options =>
-{
-    options.GroupNameFormat = "'v'VVV";
-    options.SubstituteApiVersionInUrl = true;
-});
-
-// ✅ Register Swagger & Dynamic Versioning
-builder.Services.AddSwaggerGen(options =>
-{
-    options.IncludeXmlComments(xmlPath); // ✅ XML documentation handled in Program.cs
-});
-builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
-
-// ✅ DB Connection
-var connectionString = builder.Configuration.GetConnectionString("Development") ??
-    throw new InvalidOperationException("Connection string 'Development' not found.");
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
-
-var app = builder.Build();
-
-// ✅ Configure Middleware
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
+    class Program
     {
-        var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-
-        foreach (var description in provider.ApiVersionDescriptions)
+        public static void Main(string[] args)
         {
-            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", $"API {description.ApiVersion}");
+            var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddControllers();
+
+            // ✅ Register Services in Logical Dependency Order
+            DatabaseConfig.ConfigureDatabase(builder.Services, builder.Configuration);
+            IdentityConfig.ConfigureIdentity(builder.Services);
+            JwtConfig.ConfigureJwtAuthentication(builder.Services);
+            SwaggerConfig.ConfigureSwagger(builder.Services);
+
+            var app = builder.Build();
+
+            // ✅ Middlewares
+            SwaggerConfig.ConfigureSwaggerUI(app);
+
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.MapControllers();
+            app.Run();
+
         }
-    });
+    }
+
 }
 
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
 
-app.Run();

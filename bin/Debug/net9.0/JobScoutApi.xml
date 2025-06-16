@@ -4,12 +4,6 @@
         <name>JobScoutApi</name>
     </assembly>
     <members>
-        <member name="M:JobScoutApi.Controllers.v1.UsersController.GetAllUsers">
-            <summary>
-            Retrieves all users.
-            </summary>
-            <returns>List of users.</returns>
-        </member>
         <member name="T:JobScoutApi.Migrations.InitialCreate">
             <inheritdoc />
         </member>
@@ -22,16 +16,16 @@
         <member name="M:JobScoutApi.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="T:JobScoutApi.Migrations.AddClientsTable">
+        <member name="T:JobScoutApi.Migrations.RefreshTokenColumn">
             <inheritdoc />
         </member>
-        <member name="M:JobScoutApi.Migrations.AddClientsTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:JobScoutApi.Migrations.RefreshTokenColumn.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:JobScoutApi.Migrations.AddClientsTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:JobScoutApi.Migrations.RefreshTokenColumn.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:JobScoutApi.Migrations.AddClientsTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:JobScoutApi.Migrations.RefreshTokenColumn.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

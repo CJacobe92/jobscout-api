@@ -9,9 +9,9 @@ namespace JobScoutApi.Controllers.v2
   [Route("api/v{version:apiVersion}/[controller]")]
   [ApiController]
   [ApiExplorerSettings(GroupName = "v2")]
-  public class UsersController(AppDbContext dbContext) : ControllerBase
+  public class UsersController(ApplicationDbContext dbContext) : ControllerBase
   {
-    private readonly AppDbContext dbContext = dbContext;
+    private readonly ApplicationDbContext dbContext = dbContext;
 
     [HttpGet]
     public async Task<ActionResult> GetAllUsers()

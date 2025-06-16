@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JobScoutApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5cfa38e37477336ee0e67da665da5cdc61ff719c")]
 [assembly: System.Reflection.AssemblyProductAttribute("JobScoutApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JobScoutApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
